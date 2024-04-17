@@ -24,7 +24,11 @@ function CharacterList() {
                 const data = await response.json();
 
                 if (data.results && Array.isArray(data.results)) {
-                    setCharacters(prevCharacters => [...prevCharacters, ...data.results]);
+                    if (page === 1) {
+                        setCharacters(data.results);
+                    } else {
+                        setCharacters(prevCharacters => [...prevCharacters, ...data.results]);
+                    }
                 } else {
                     throw new Error('Unexpected data format received from API.');
                 }
@@ -44,9 +48,12 @@ function CharacterList() {
     return (
         <Box>
             <CharacterFilter filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
-            <SimpleGrid columns={[1, null, 2, 3]} spacing={4}>
+            <SimpleGrid columns={[1, null, 2, 4]} spacing={[4, null, 6, 8]} mt={8}>
                 {characters.map((character, index) => (
-                    <CharacterCard key={`${character.id}-${index}`} character={character} />
+                    <CharacterCard
+                        key={`${character.id}-${index}`}
+                        character={character}
+                    />
                 ))}
             </SimpleGrid>
             {loading && <Spinner mt={4} />}

@@ -4,24 +4,29 @@ import { Box, Text, Image } from '@chakra-ui/react';
 
 function CharacterCard({ character }) {
     return (
-        // Link wraps the entire card so that clicking on it navigates to the detailed page
         <Link to={`/character/${character.id}`}>
             <Box
-                borderWidth="1px"
+                borderWidth="2px"
                 borderRadius="lg"
                 overflow="hidden"
                 p={4}
-                _hover={{ boxShadow: 'lg' }} // Adds a hover effect
-                cursor="pointer" // Changes cursor to pointer on hover
+                boxShadow="md" 
+                bg="white" //
+                transition="box-shadow 0.3s ease-in-out" 
+                _hover={{ boxShadow: '0 4px 8px rgba(255, 255, 255, 0.2)' }} // White box shadow on hover
+                cursor="pointer"
+                display="flex"
+                flexDirection="column"
+                alignItems="center" 
+                textAlign="center"
             >
-                <Image src={character.image} alt={character.name} />
-                <Text fontWeight="bold" mt={2}>{character.name}</Text>
-                <Text mt={1}>Species: {character.species}</Text>
-                <Text mt={1}>Status: {character.status}</Text>
+                <Image src={character.image} alt={character.name} borderRadius="full" boxSize="150px"/>
+                <Text fontWeight="bold" mt={3} color="black">Name:{character.name}</Text>
+                <Text mt={1} color="black">Species: {character.species}</Text> 
+                <Text mt={1} color="black">Status: {character.status}</Text> 
             </Box>
         </Link>
     );
 }
 
 export default CharacterCard;
-
