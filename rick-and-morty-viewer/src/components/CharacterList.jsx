@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SimpleGrid, Button, Spinner, Box, Alert, AlertIcon } from '@chakra-ui/react';
+import { motion } from 'framer-motion'; // Import motion from framer-motion
 import CharacterCard from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 
@@ -9,6 +10,8 @@ function CharacterList() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [filterStatus, setFilterStatus] = useState('');
+    const [sortBy, setSortBy] = useState('');
+    const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
         async function fetchCharacters() {
@@ -45,30 +48,57 @@ function CharacterList() {
 
     const loadMore = () => setPage(prevPage => prevPage + 1);
 
+    const sortCharacters = (criteria) => {
+        if (sortBy === criteria) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(criteria);
+            setSortDirection('asc');
+        }
+    };
+
+    const sortedCharacters = characters.slice().sort((a, b) => {
+        if (sortBy === 'name') {
+            return sortDirection === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else if (sortBy === 'species') {
+            return sortDirection === 'asc' ? a.species.localeCompare(b.species) : b.species.localeCompare(a.species);
+        } else if (sortBy === 'status') {
+            return sortDirection === 'asc' ? a.status.localeCompare(b.status) : b.status.localeCompare(a.status);
+        }
+        return 0;
+    });
+
     return (
-        <Box>
-            <CharacterFilter filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
-            <SimpleGrid columns={[1, null, 2, 4]} spacing={[4, null, 6, 8]} mt={8}>
-                {characters.map((character, index) => (
-                    <CharacterCard
-                        key={`${character.id}-${index}`}
-                        character={character}
-                    />
-                ))}
-            </SimpleGrid>
-            {loading && <Spinner mt={4} />}
-            {error && (
-                <Alert mt={4} status="error">
-                    <AlertIcon />
-                    {error}
-                </Alert>
-            )}
-            {!loading && (
-                <Button onClick={loadMore} mt={4}>
-                    Load More
-                </Button>
-            )}
-        </Box>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}> {/* Add motion animation wrapper */}
+            <Box>
+                <CharacterFilter filterStatus={filterStatus} setFilterStatus={setFilterStatus} />
+                <Box mt={4}>
+                    <Button mr={4} onClick={() => sortCharacters('name')}>Sort by Name</Button>
+                    <Button mr={4} onClick={() => sortCharacters('species')}>Sort by Species</Button>
+                    <Button onClick={() => sortCharacters('status')}>Sort by Status</Button>
+                </Box>
+                <SimpleGrid columns={[1, null, 2, 4]} spacing={[4, null, 6, 8]} mt={8}>
+                    {sortedCharacters.map((character, index) => (
+                        <CharacterCard
+                            key={`${character.id}-${index}`}
+                            character={character}
+                        />
+                    ))}
+                </SimpleGrid>
+                {loading && <Spinner mt={4} />}
+                {error && (
+                    <Alert mt={4} status="error">
+                        <AlertIcon />
+                        {error}
+                    </Alert>
+                )}
+                {!loading && (
+                    <Button onClick={loadMore} mt={4}>
+                        Load More
+                    </Button>
+                )}
+            </Box>
+        </motion.div>
     );
 }
 
