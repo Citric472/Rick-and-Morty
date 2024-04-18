@@ -1,4 +1,3 @@
-// App.jsx
 import React from 'react';
 import {
     ChakraProvider,
@@ -12,7 +11,7 @@ import CharacterList from './components/CharacterList';
 import CharacterDetail from './components/CharacterDetail';
 import './App.css';
 
-// Define a custom theme with dark background and white text color
+
 const customTheme = extendTheme({
     styles: {
         global: {
@@ -30,7 +29,7 @@ function App() {
             <CSSReset />
             <Router>
                 <Container maxW="container.xl" p={4}>
-                    {/* Center the title using the Box component */}
+                    
                     <Heading as="h1" size="xl" mb={4} textAlign="center">
                         Rick and Morty Character Explorer
                     </Heading>

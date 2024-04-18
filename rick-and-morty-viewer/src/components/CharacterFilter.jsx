@@ -14,13 +14,13 @@ function CharacterFilter({ filterStatus, setFilterStatus }) {
                 value={filterStatus}
                 onChange={handleChange}
                 placeholder="Filter by status"
-                width="260px" // Adjust the width
-                height="30px" // Adjust the height
+                width="260px" 
+                height="30px" 
                 fontSize="lg"
                 py={4}
                 px={6}
-                color="black" // Set option text color to black
-                bg="white" // Set dropdown box background color to white
+                color="black" 
+                bg="white" 
                 icon={<ChevronDownIcon />}
             >
                 <option value="alive">Alive</option>
