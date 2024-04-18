@@ -28,7 +28,7 @@ To run this project locally, follow these steps:
 
 2. Navigate to the project directory:
 
-    cd rick-and-morty-character-explorer
+    cd rick-and-morty-character-viewer
 
 3. Install dependencies:
    
